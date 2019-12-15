@@ -1,9 +1,12 @@
 (ns cljslog.core
+  (:refer-clojure :exclude [time])
   (:require [goog.log :as glog])
   (:import goog.debug.Console))
 
+;; Thanks to Gert Goet (https://github.com/eval) for:
+;;  https://gist.github.com/eval/f1aaab653927d39ec549f14defb21785#file-logging-cljs
 (def logger
-     (glog/getLogger "app"))
+  (glog/getLogger "app"))
 
 (def levels {:severe goog.debug.Logger.Level.SEVERE
              :warning goog.debug.Logger.Level.WARNING
@@ -22,12 +25,30 @@
 (defn fmt [msgs]
   (apply str (interpose " " (map pr-str msgs))))
 
-(defn trace [message])
-(defn debug [message])
 (defn info [& s]
   (let [msg (fmt s)]
-   (glog/info logger msg)))
+    (glog/info logger msg)))
 
-(defn info [message])
-(defn warn [message])
-(defn error [message])
+(defn debug [& s]
+  (let [msg (fmt s)]
+    (glog/fine logger msg)))
+
+(defn error [& s]
+  (let [msg (fmt s)]
+    (glog/error logger msg)))
+
+(defn warn [& s]
+  (let [msg (fmt s)]
+    (glog/warning logger msg)))
+
+(log-to-console!)
+
+(defn -main []
+  (println "-main: via println")
+  (log-to-console!)
+  (set-level! :finest)
+
+  (error "some" "bad" "stuff"))
+
+(set! *main-cli-fn* -main)
+
