@@ -18,6 +18,7 @@
 
 (defn log-to-console! []
   (.setCapturing (goog.debug.Console.) true))
+(log-to-console!)
 
 (defn set-level! [level]
   (.setLevel logger (get levels level (:info levels))))
@@ -41,14 +42,4 @@
   (let [msg (fmt s)]
     (glog/warning logger msg)))
 
-(log-to-console!)
-
-(defn -main []
-  (println "-main: via println")
-  (log-to-console!)
-  (set-level! :finest)
-
-  (error "some" "bad" "stuff"))
-
-(set! *main-cli-fn* -main)
 
