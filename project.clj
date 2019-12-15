@@ -1,4 +1,4 @@
-(defproject cljslog "0.1.0-SNAPSHOT"
+(defproject cljslog "0.1.0"
   :description "minimal support for logging for Clojurescript"
   :license {:name "EPL-2.0"
             :url "https://www.eclipse.org/legal/epl-2.0/"}
